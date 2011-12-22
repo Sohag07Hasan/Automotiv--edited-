@@ -1,0 +1,15 @@
+body {font-family: serif; font-size: 13pt;}
+
+#sliderimage {position: relative;}
+
+h1#logo a, p#description {text-indent: 0;}
+
+#slide-panel, .loginslide, #logo2, #basicsearch, .menu-main-container, #sidebar-left, .scrollable, #social, .wpcf7, #topcontrol, .post-edit-link, #listinglocation h3, .top, #footer, #belowfooter, #videos, #listingcontact, #browseby, .sf-menu {
+	display: none;
+}
+
+#features {
+	position: static;
+}
+
+.page-break { display:block; page-break-before:always;

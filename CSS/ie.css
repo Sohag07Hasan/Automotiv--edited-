@@ -1,0 +1,18 @@
+code {
+	font-size: .9em;
+}
+
+li#home {
+	background: none;
+	text-indent: 0;
+	margin-right: 0;
+}
+
+
+#slider a.button {
+	display:block;
+	width: 100px;
+}
+
+.sf-menu a:link, .sf-menu a:visited { color: white;}
+
