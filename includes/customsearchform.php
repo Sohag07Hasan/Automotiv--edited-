@@ -114,7 +114,15 @@ if (get_option('wp_searchresultspagefix') == "Yes") {
 								if(count($models) < 1) continue;
 								$a = '';
 								foreach($models as $mod){
-									$a .= "<option value='$mod'>$mod</option>";
+									
+									if($mod == $_REQUEST['manufacturer_level2']){
+										$selected = "selected='selected'";
+									}
+									else{
+										$selected = '';
+									}
+									
+									$a .= "<option $selected value='$mod'>$mod</option>";
 								}
 								echo "models['$id'] = \"$a\"";
 							}
