@@ -82,8 +82,10 @@ if (get_option('wp_searchresultspagefix') == "Yes") {
         	<label><?php echo get_option('wp_manufacturer_text')  ?>:</label>
             	<?php
 				$manufacturer_level1 = get_option('wp_manufacturer_level1');
-				$arr_manufacturer_level1 = apply_filters('primary_manufactuerer_search',explode("\n", $manufacturer_level1));
+				//var_dump($manufacturer_level1);
 				
+				$arr_manufacturer_level1 = apply_filters('primary_manufactuerer_search',explode("\n", $manufacturer_level1));
+							
 				echo "<select id='manufacturer_level1' name='manufacturer_level1'>";
 				$counter = 0;
 				foreach ($arr_manufacturer_level1 as $item => $value) {
@@ -98,6 +100,30 @@ if (get_option('wp_searchresultspagefix') == "Yes") {
 				}
 				echo "</select>";
 				?>
+				
+				<?php if(get_option("wp_secondary_manufacturer") == 'Enable') { ?>
+				
+					<script type="text/javascript">
+						var models = new Array();
+						
+						<?php
+							foreach($arr_manufacturer_level1 as $man){
+								if($man == '') continue;
+								$id = 'wp_' . preg_replace('/[ ]/','',$man);							
+								$models = get_option($id);
+								if(count($models) < 1) continue;
+								$a = '';
+								foreach($models as $mod){
+									$a .= "<option value='$mod'>$mod</option>";
+								}
+								echo "models['$id'] = \"$a\"";
+							}
+													 
+						?>						
+					</script> 
+				
+				<?php } ?>
+				
 				<?php if(get_option("wp_secondary_manufacturer") == 'Enable') { ?>
 					 <label><?php echo get_option('wp_Heading_Manufacturer_Level2') ?></label>
 					 <div id="manufacturer_level2_drop_down">
@@ -275,53 +301,48 @@ foreach ($arr_yearlevels as $year) {
 <?php if(get_option("wp_secondary_manufacturer") == "Enable") { ?>
 <script type="text/javascript">
 $(document).ready(function() {
+		
+	if ($('#manufacturer_level1').val() != '') {
 	
-	if ($('#manufacturer_level1').val() != "") {
-	
-		$filename_nospaces = $('#manufacturer_level1').val().replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$thefile = "<?php bloginfo('template_url');?>/secondary_search_manufacturers/" + $filename_nospaces + ".txt";
-		var sohag = 'Toyota Ford Honda Mazda Porsche';
-		$filename_nospaces= $filename_nospaces.replace(/\s/g,'');
-		if(sohag.indexOf($filename_nospaces) == -1){
-			$('#manufacturer_level2_drop_down').hide();
-		}
-		else{			 
-			$("#manufacturer_level2").load($thefile);
+		$filename = $('#manufacturer_level1').val().replace(" ", "");		
+		$filename = $filename.replace(/\s/g,'');
+		
+		var html_val = models['wp_'+$filename];
+		
+		if(html_val.length > 5){			
+			$("#manufacturer_level2").html(html_val);
+			//alert(models['wp_'+$filename_nospaces]);
 			$('#manufacturer_level2_drop_down').show();
 		}
-		
+		else{
+			$("#manufacturer_level2").html(null);
+			$('#manufacturer_level2_drop_down').hide();
+		}		
+			
 	}
 
 
 $("#manufacturer_level1").change(function() {
+	
 	$filename_nospaces = $(this).val().replace(" ", "");
 		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-		$filename_nospaces = $filename_nospaces.replace(" ", "");
-	$thefile = "<?php bloginfo('template_url');?>/secondary_search_manufacturers/" + $filename_nospaces + ".txt";	
-	if ($thefile.indexOf("/.txt") == -1) {
-			var sohag = 'Toyota Ford Honda Mazda Porsche';
-			$filename_nospaces= $filename_nospaces.replace(/\s/g,'');
-			if(sohag.indexOf($filename_nospaces) == -1){
-				$('#manufacturer_level2_drop_down').hide();
-			}
-			else{			 
-				$("#manufacturer_level2").load($thefile);
+		$filename_nospaces = $filename_nospaces.replace(/\s/g,'');
+		if($filename_nospaces != ''){
+			var html_value = models['wp_'+$filename_nospaces];
+			if(html_value.length > 5){			
+				$("#manufacturer_level2").html(html_value);
+				//alert(models['wp_'+$filename_nospaces]);
 				$('#manufacturer_level2_drop_down').show();
 			}
-		
-	} else {
-		$('#manufacturer_level2_drop_down').hide();
-	}
+			else{
+				$("#manufacturer_level2").html(null);
+				$('#manufacturer_level2_drop_down').hide();
+			}
+		}
+		else{
+			$("#manufacturer_level2").html(null);
+			$('#manufacturer_level2_drop_down').hide();
+		}		
 
 	});
 });
