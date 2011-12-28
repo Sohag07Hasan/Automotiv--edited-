@@ -112,6 +112,8 @@ if (get_option('wp_searchresultspagefix') == "Yes") {
 								$id = 'wp_' . preg_replace('/[ ]/','',$man);							
 								$models = get_option($id);
 								if(count($models) < 1) continue;
+								$models = apply_filters('secondary_manufactuerer_search',$models);
+																
 								$a = '';
 								foreach($models as $mod){
 									if($mod == $_REQUEST['manufacturer_level2']){
@@ -379,7 +381,3 @@ $.cookie(name, $(this).val(), { path: '/', expires: 365 });
 }
 remember( '[name=manufacturer_level1], [name=enginesize2],[name=trans2], [name=minprice2], [name=maxprice2], [name=body_type2], [name=year2], [name=mileage2] ' );		
 </script>
-
-
-
-
