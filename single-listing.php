@@ -156,7 +156,8 @@ if ($arr_terms) {
 	<div id="listingcontact">
 		<h3 id="contact"><?php echo stripslashes(get_option('wp_contactustext')); ?></h3>
 		<p><?php echo stripslashes(get_option('wp_contactussubtext')); ?></p>
-		<?php echo do_shortcode(stripslashes(get_option('wp_contactshortcode')));  ?>
+		<?php //echo do_shortcode(stripslashes(get_option('wp_contactshortcode')));  ?>
+		<?php do_action('ove_contact_form',$post);  ?>
 	</div><!-- end listing contact -->
 <?php } ?>
 
